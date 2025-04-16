@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <title>Senarai Rumah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .listing {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .listing h2 {
+            margin: 0 0 10px;
+        }
+        label, select {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Senarai Rumah Untuk Dijual</h1>
+
+<div class="controls">
+    <label for="sortPrice">Sort Harga:</label>
+    <select id="sortPrice" onchange="sortListings()">
+        <option value="asc">Menaik</option>
+        <option value="desc">Menurun</option>
+    </select>
+
+    <label for="filterType">Jenis Rumah:</label>
+    <select id="filterType" onchange="filterListings()">
+        <option value="all">Semua</option>
+        <option value="teres 1 tingkat">Teres 1 Tingkat</option>
+        <option value="teres 2 tingkat">Teres 2 Tingkat</option>
+        <option value="semi d">Semi D</option>
+    </select>
+
+    <label for="filterLocation">Lokasi:</label>
+    <select id="filterLocation" onchange="filterListings()">
+        <option value="all">Semua</option>
+        <option value="kulim">Kulim</option>
+        <option value="sungai petani">Sungai Petani</option>
+    </select>
+</div>
+
+<div id="listings">
+    <div class="listing" data-harga="490000" data-type="semi d" data-lokasi="kulim">
+        <h2>RUMAH CORNER LOT SEMI D 1 TINGKAT | TAMAN BUKIT KULIM</h2>
+        <p><strong>Harga:</strong> RM490,000</p>
+        <p><strong>Jenis:</strong> Semi D 1 Tingkat</p>
+        <p><strong>Bilik:</strong> 5 bilik, 2 bilik air</p>
+        <p><strong>Status:</strong> Freehold</p>
+        <p><strong>Renovation:</strong> Pagar tembok, plaster ceiling, full tiles, grill, table top</p>
+        <p><strong>Keluasan:</strong> Tanah 2551 sqft, Binaan 950 sqft</p>
+        <p><strong>Lokasi:</strong> Kulim</p>
+        <p><strong>Contact:</strong> Ihsan Zainuddin - 01137120863 - CCI Realty</p>
+    </div>
+
+    <div class="listing" data-harga="510000" data-type="teres 2 tingkat" data-lokasi="sungai petani">
+        <h2>DOUBLE STOREY TERRACE | CINTA SAYANG RESORT HOME, SUNGAI PETANI</h2>
+        <p><strong>Harga:</strong> RM510,000</p>
+        <p><strong>Jenis:</strong> Teres 2 Tingkat</p>
+        <p><strong>Bilik:</strong> 4 bilik, 4 bilik air</p>
+        <p><strong>Status:</strong> Freehold</p>
+        <p><strong>Renovation:</strong> Awning, kitchen cabinet, store room</p>
+        <p><strong>Keluasan:</strong> 1540 sqft</p>
+        <p><strong>Lokasi:</strong> Sungai Petani</p>
+        <p><strong>Contact:</strong> Raf Aifa - 01115354305</p>
+    </div>
+
+    <div class="listing" data-harga="280000" data-type="teres 1 tingkat" data-lokasi="sungai petani">
+        <h2>TERES SETINGKAT KOS RENDAH | TAMAN LAGENDA</h2>
+        <p><strong>Harga:</strong> RM280,000</p>
+        <p><strong>Jenis:</strong> Teres 1 Tingkat</p>
+        <p><strong>Bilik:</strong> 3 bilik, 1 bilik air</p>
+        <p><strong>Status:</strong> Freehold</p>
+        <p><strong>Renovation:</strong> Fully tiles car porch with awning</p>
+        <p><strong>Keluasan:</strong> 1200 sqft</p>
+        <p><strong>Lokasi:</strong> Sungai Petani</p>
+        <p><strong>Contact:</strong> Suriayati Hj Hashim - 0175480571</p>
+    </div>
+</div>
+
+<script>
+function sortListings() {
+    let container = document.getElementById("listings");
+    let listings = Array.from(container.getElementsByClassName("listing"));
+    let sortOrder = document.getElementById("sortPrice").value;
+
+    listings.sort((a, b) => {
+        let aPrice = parseInt(a.dataset.harga);
+        let bPrice = parseInt(b.dataset.harga);
+        return sortOrder === "asc" ? aPrice - bPrice : bPrice - aPrice;
+    });
+
+    listings.forEach(listing => container.appendChild(listing));
+}
+
+function filterListings() {
+    let type = document.getElementById("filterType").value;
+    let lokasi = document.getElementById("filterLocation").value;
+    let listings = document.querySelectorAll(".listing");
+
+    listings.forEach(listing => {
+        let matchType = type === "all" || listing.dataset.type === type;
+        let matchLocation = lokasi === "all" || listing.dataset.lokasi === lokasi;
+        listing.style.display = (matchType && matchLocation) ? "block" : "none";
+    });
+}
+</script>
+
+</body>
+</html>
